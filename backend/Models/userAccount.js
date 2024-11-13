@@ -22,16 +22,13 @@ const userAccount_Model = mongoose.Schema(
             required:[true,"User must there and contain 8 plus characters"]
         },
 
-        userImage:{
-            type:String,
-            required:[false]
-        }
+       
         
     }
     );
         
         
-module.exports = mongoose.model("userAccounts",userAccount_Model)
+module.exports = mongoose.model("userAccount",userAccount_Model)
 
 
 

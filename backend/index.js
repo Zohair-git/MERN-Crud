@@ -24,21 +24,16 @@ const {connectionDB} = require('./Config/connectionDB')
 //--Models
 
 const {
-    getRoles,
-    createRoles,
-    deleteRole,
-    updateRole
-} = require("./Controllers/UserRolesController")
+    getUsers, createUser
+} = require("./Controllers/userController")
 
 
 
 // ROLES [ GET , POST ]
 
-app.route("/userroles").get(getRoles).post(createRoles);
+app.route("/users").get(getUsers).post(createUser);
 
-// ROLES [ DELETE , UPDATE ]
 
-app.route("/userroles/:id").delete(deleteRole).put(updateRole);
 
 
 

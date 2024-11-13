@@ -1,65 +1,92 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
-const Role = () => {
+const User = () => {
+  const [userName, setUserName] = useState('');
+  const [userEmail, setUserEmail] = useState('');
+  const [userPassword, setUserPassword] = useState('');
 
-  const [RoleName,setRoleName] = useState();
-  const [RoleStatus,setRoleStatus] = useState();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
+    const userData = {
+      userName,
+      userEmail,
+      userPassword
+    };
 
+    try {
+      const userResponse = await fetch('http://localhost:5000/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(userData)
+      });
 
-  const handleSubmit = async(e) =>{
-    e.preventDefault();  
+      const apiResponse = await userResponse.json();
 
-
-    const RoleData = {
-      roleName:RoleName,
-      roleStatus:RoleStatus
+      if (apiResponse.message) {
+        alert('User added successfully!');
+      } else {
+        alert(apiResponse.error);
+      }
+    } catch (error) {
+      alert('Error adding user: ' + error.message);
     }
-
-    const Role_Response = await fetch("http://localhost:5000/userroles",{
-      method:"POST",
-      headers:{
-        'Content-Type':"application/json"
-      },
-      body:JSON.stringify(RoleData)
-    })
-
-    const Api_response = await Role_Response.json();
-
-    if(Api_response.message) {
-      alert("Data added success !!")
-    }else{
-      alert(Api_response.error)
-    }
-
-  }
-
-
-
+  };
 
   return (
-    <div className='container mt-5'>
-      <h1 className='mt-3'>Role Register</h1>
-      <form   onSubmit={handleSubmit}>
-        <div class="mb-3">
-          <label for="exampleInputEmail1" class="form-label">Role Name</label>
-          <input type="text" class="form-control" onChange={(e)=> setRoleName(e.target.value)} />
-            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-        </div>
-        <div class="mb-3">
-          <label for="exampleInputPassword1" class="form-label">Role Status</label>
-          <select className='form-control' onChange={(e)=> setRoleStatus(e.target.value)} >
-            <option  value="active">Active</option>
-            <option value="unactive">Block</option>
-          </select>
+    <div className="container mt-5">
+      <h1 className="mt-3">User Register</h1>
+      <form onSubmit={handleSubmit}>
+        <div className="mb-3">
+          <label htmlFor="userName" className="form-label">
+            User Name
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            id="userName"
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+            required
+          />
         </div>
 
-        <button type="submit" class="btn btn-primary" >Add Role</button>
+        <div className="mb-3">
+          <label htmlFor="userEmail" className="form-label">
+            User Email
+          </label>
+          <input
+            type="email"
+            className="form-control"
+            id="userEmail"
+            value={userEmail}
+            onChange={(e) => setUserEmail(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className="mb-3">
+          <label htmlFor="userPassword" className="form-label">
+            User Password
+          </label>
+          <input
+            type="password"
+            className="form-control"
+            id="userPassword"
+            value={userPassword}
+            onChange={(e) => setUserPassword(e.target.value)}
+            required
+          />
+        </div>
+
+        <button type="submit" className="btn btn-primary">
+          Add User
+        </button>
       </form>
-
-
     </div>
-  )
-}
+  );
+};
 
-export default Role
+export default User;
